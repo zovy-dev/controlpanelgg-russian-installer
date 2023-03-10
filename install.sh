@@ -250,7 +250,7 @@ esac
 }
 
 check_fqdn() {
-print "Checking FQDN..."
+print "Проверка полного доменного имени..."
 sleep 2
 IP="$(curl -s https://ipecho.net/plain ; echo)"
 CHECK_DNS="$(dig +short @8.8.8.8 "$FQDN" | tail -n1)"
@@ -768,7 +768,7 @@ mkdir -p $INFORMATIONS
 echo -n "* Начальные настройки завершены, продолжить установку? (y/N): "
 read -r CONTINUE_INSTALL
 [[ "$CONTINUE_INSTALL" =~ [Yy] ]] && install_controlpanel
-[[ "$CONTINUE_INSTALL" == [Nn] ]] && print_error "Installation aborted!" && exit 1
+[[ "$CONTINUE_INSTALL" == [Nn] ]] && print_error "Установка прервана!" && exit 1
 }
 
 bye() {
