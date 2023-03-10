@@ -3,16 +3,6 @@
 
 set -e
 
-########################################################
-# 
-#         Pterodactyl-AutoThemes Installation
-#
-#         Created and maintained by Ferks-FK
-#
-#            Protected by MIT License
-#
-########################################################
-
 # Get the latest version before running the script #
 get_release() {
 curl --silent \
@@ -161,7 +151,7 @@ check_distro() {
 }
 
 only_upgrade_panel() {
-print "Updating your panel, please wait..."
+print "Обновление вашей панели, пожалуйста, подождите..."
 
 cd /var/www/controlpanel
 php artisan down
@@ -183,7 +173,7 @@ php artisan queue:restart
 
 php artisan up
 
-print "Your panel has been successfully updated to version ${YELLOW}${LATEST_VERSION}${RESET}."
+print "Ваша панель успешно обновлена ​​до версии ${YELLOW}${LATEST_VERSION}${RESET}."
 exit 1
 }
 
@@ -212,7 +202,7 @@ systemctl enable php-fpm --now
 }
 
 check_compatibility() {
-print "Checking if your system is compatible with the script..."
+print "Проверка совместимости вашей системы со скриптом..."
 sleep 2
 
 case "$OS" in
@@ -239,15 +229,15 @@ case "$OS" in
 esac
 
 if [ "$SUPPORTED" == true ]; then
-    print "$OS $OS_VER is supported!"
+    print "$OS $OS_VER поддерживается!"
   else
-    print_error "$OS $OS_VER is not supported!"
+    print_error "$OS $OS_VER не поддерживается!"
     exit 1
 fi
 }
 
 inicial_deps() {
-print "Downloading packages required for FQDN validation..."
+print "Загрузка пакетов, необходимых для проверки полного доменного имени..."
 
 case "$OS" in
   debian | ubuntu)
@@ -268,33 +258,33 @@ if [ -z "$IP" ]; then
   IP="$(wget -qO- ifconfig.co/ip)"
 fi
 if [[ "$IP" != "$CHECK_DNS" ]]; then
-    print_error "Your FQDN (${YELLOW}$FQDN${RESET}) is not pointing to the public IP (${YELLOW}$IP${RESET}), please make sure your domain is set correctly."
-    echo -n "* Would you like to check again? (y/N): "
+    print_error "Ваше полное доменное имя (${YELLOW}$FQDN${RESET}) не указывает на публичный IP (${YELLOW}$IP${RESET}), пожалуйста, убедитесь, что ваш домен установлен правильно."
+    echo -n "* Хотите проверить еще раз? (y/N): "
     read -r CHECK_DNS_AGAIN
     [[ "$CHECK_DNS_AGAIN" =~ [Yy] ]] && check_fqdn
-    [[ "$CHECK_DNS_AGAIN" == [Nn] ]] && print_error "Installation aborted!" && exit 1
+    [[ "$CHECK_DNS_AGAIN" == [Nn] ]] && print_error "Установка прервана!" && exit 1
   else
-    print_success "DNS successfully verified!"
+    print_success "DNS успешно проверен!"
 fi
 }
 
 ask_ssl() {
-echo -ne "* Would you like to configure ssl for your domain? (y/N): "
+echo -ne "* Хотите настроить ssl для своего домена? (y/N): "
 read -r CONFIGURE_SSL
 if [[ "$CONFIGURE_SSL" == [Yy] ]]; then
     CONFIGURE_SSL=true
-    email_input EMAIL "Enter your email address to create the SSL certificate for your domain: " "Email cannot by empty or invalid!"
+    email_input EMAIL "Введите свой адрес электронной почты, чтобы создать SSL-сертификат для вашего домена: " "Электронная почта не может быть пустой или недействительной!"
 fi
 }
 
 install_composer() {
-print "Installing Composer..."
+print "Установка Композитора..."
 
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 }
 
 download_files() {
-print "Downloading Necessary Files..."
+print "Загрузка необходимых файлов..."
 
 git clone -q https://github.com/ControlPanel-gg/dashboard.git /var/www/controlpanel
 rm -rf /var/www/controlpanel/.env.example
@@ -306,7 +296,7 @@ COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 }
 
 set_permissions() {
-print "Setting Necessary Permissions..."
+print "Установка необходимых разрешений..."
 
 case "$OS" in
   debian | ubuntu)
@@ -336,12 +326,12 @@ check_database_info() {
 # Check if mysql has a password
 if ! mysql -u root -e "SHOW DATABASES;" &>/dev/null; then
   MYSQL_PASSWORD=true
-  print_warning "It looks like your MySQL has a password, please enter it now"
-  password_input MYSQL_ROOT_PASS "MySQL Password: " "Password cannot by empty!"
+  print_warning "Похоже, у вашего MySQL есть пароль, введите его сейчас"
+  password_input MYSQL_ROOT_PASS "MySQL Пароль: " "Пароль не может быть пустым!"
   if mysql -u root -p"$MYSQL_ROOT_PASS" -e "SHOW DATABASES;" &>/dev/null; then
-      print "The password is correct, continuing..."
+      print "Пароль правильный, продолжаю..."
     else
-      print_warning "The password is not correct, please re-enter the password"
+      print_warning "Пароль неверный, пожалуйста, введите пароль еще раз"
       check_database_info
   fi
 fi
@@ -354,8 +344,8 @@ if [ "$MYSQL_PASSWORD" == true ]; then
 fi
 sed -i '1d' "$INFORMATIONS/check_user.txt"
 while grep -q "$DB_USER" "$INFORMATIONS/check_user.txt"; do
-  print_warning "Oops, it looks like user ${GREEN}$DB_USER${RESET} already exists in your MySQL, please use another one."
-  echo -n "* Database User: "
+  print_warning "Упс, похоже на пользователя ${GREEN}$DB_USER${RESET} уже существует в вашем MySQL, используйте другой."
+  echo -n "* Пользователь базы данных: "
   read -r DB_USER
 done
 rm -r "$INFORMATIONS/check_user.txt"
@@ -368,15 +358,15 @@ if [ "$MYSQL_PASSWORD" == true ]; then
 fi
 sed -i '1d' "$INFORMATIONS/check_db.txt"
 while grep -q "$DB_NAME" "$INFORMATIONS/check_db.txt"; do
-  print_warning "Oops, it looks like the database ${GREEN}$DB_NAME${RESET} already exists in your MySQL, please use another one."
-  echo -n "* Database Name: "
+  print_warning "Упс, похоже на базу данных ${GREEN}$DB_NAME${RESET} уже существует в вашем MySQL, используйте другой."
+  echo -n "* Имя базы данных: "
   read -r DB_NAME
 done
 rm -r "$INFORMATIONS/check_db.txt"
 }
 
 configure_database() {
-print "Configuring Database..."
+print "Настройка базы данных..."
 
 if [ "$MYSQL_PASSWORD" == true ]; then
     mysql -u root -p"$MYSQL_ROOT_PASS" -e "CREATE DATABASE ${DB_NAME};" &>/dev/null
@@ -392,7 +382,7 @@ fi
 }
 
 configure_webserver() {
-print "Configuring Web-Server..."
+print "Настройка веб-сервера..."
 
 if [ "$CONFIGURE_SSL" == true ]; then
     WEB_FILE="controlpanel_ssl.conf"
@@ -467,7 +457,7 @@ esac
 }
 
 configure_ssl() {
-print "Configuring SSL..."
+print "Настройка SSL..."
 
 FAILED=false
 
@@ -492,23 +482,23 @@ if [ ! -d "/etc/letsencrypt/live/$FQDN/" ] || [ "$FAILED" == true ]; then
     if [ "$(systemctl is-active --quiet nginx)" == "active" ]; then
       systemctl stop nginx
     fi
-    print_warning "The script failed to generate the SSL certificate automatically, trying alternative command..."
+    print_warning "Сценарию не удалось автоматически сгенерировать SSL-сертификат, попробуйте альтернативную команду..."
     FAILED=false
 
     certbot certonly --standalone --non-interactive --agree-tos --quiet --no-eff-email --email "$EMAIL" -d "$FQDN" || FAILED=true
 
     if [ -d "/etc/letsencrypt/live/$FQDN/" ] || [ "$FAILED" == false ]; then
-        print "The script was able to successfully generate the SSL certificate!"
+        print "Сценарий смог успешно сгенерировать SSL-сертификат!"
       else
-        print_warning "The script failed to generate the certificate, try to do it manually."
+        print_warning "Скрипту не удалось сгенерировать сертификат, попробуйте сделать это вручную."
     fi
   else
-    print "The script was able to successfully generate the SSL certificate!"
+    print "Сценарий смог успешно сгенерировать SSL-сертификат!"
 fi
 }
 
 configure_crontab() {
-print "Configuring Crontab"
+print "Настройка Кронтаба"
 
 crontab -l | {
   cat
@@ -517,7 +507,7 @@ crontab -l | {
 }
 
 configure_service() {
-print "Configuring ControlPanel Service..."
+print "Настройка службы ControlPanel..."
 
 curl -so /etc/systemd/system/controlpanel.service "$GITHUB_URL"/configs/controlpanel.service
 
@@ -557,7 +547,7 @@ enable_services_debian_based
 }
 
 deps_debian() {
-print "Installing dependencies for Debian ${OS_VER}"
+print "Установка зависимостей для Debian ${OS_VER}"
 
 # MariaDB need dirmngr
 apt-get install -y dirmngr
@@ -581,7 +571,7 @@ enable_services_debian_based
 }
 
 deps_centos() {
-print "Installing dependencies for CentOS ${OS_VER}"
+print "Установка зависимостей для CentOS ${OS_VER}"
 
 if [ "$OS_VER_MAJOR" == "7" ]; then
     # SELinux tools
@@ -623,7 +613,7 @@ allow_selinux
 }
 
 install_controlpanel() {
-print "Starting installation, this may take a few minutes, please wait."
+print "Начинается установка, это может занять несколько минут, пожалуйста, подождите."
 sleep 2
 
 case "$OS" in
@@ -659,8 +649,8 @@ main() {
 if [ -d "/var/www/controlpanel" ]; then
   update_variables
   if [ "$CLIENT_VERSION" != "$LATEST_VERSION" ]; then
-      print_warning "You already have the panel installed."
-      echo -ne "* The script detected that the version of your panel is ${YELLOW}$CLIENT_VERSION${RESET}, the latest version of the panel is ${YELLOW}$LATEST_VERSION${RESET}, would you like to upgrade? (y/N): "
+      print_warning "Вы уже установили панель."
+      echo -ne "* Скрипт обнаружил, что версия вашей панели ${YELLOW}$CLIENT_VERSION${RESET}, последняя версия панели ${YELLOW}$LATEST_VERSION${RESET}, вы хотите обновить? (y/N): "
       read -r UPGRADE_PANEL
       if [[ "$UPGRADE_PANEL" =~ [Yy] ]]; then
           check_distro
@@ -670,24 +660,24 @@ if [ -d "/var/www/controlpanel" ]; then
           exit 1
       fi
     else
-      print_warning "The panel is already installed, aborting..."
+      print_warning "Панель уже установлена, прерывание..."
       exit 1
   fi
 fi
 
 # Check if pterodactyl is installed #
 if [ ! -d "/var/www/pterodactyl" ]; then
-  print_warning "An installation of pterodactyl was not found in the directory $YELLOW/var/www/pterodactyl${RESET}"
-  echo -ne "* Is your pterodactyl panel installed on this machine? (y/N): "
+  print_warning "Установка птеродактиля не найдена в каталоге $YELLOW/var/www/pterodactyl${RESET}"
+  echo -ne "* Ваша панель птеродактиля установлена ​​на этой машине? (y/N): "
   read -r PTERO_DIR
   if [[ "$PTERO_DIR" =~ [Yy] ]]; then
     echo -e "* ${GREEN}EXAMPLE${RESET}: /var/www/myptero"
-    echo -ne "* Enter the directory from where your pterodactyl panel is installed: "
+    echo -ne "* Войдите в каталог, из которого установлена ​​ваша панель птеродактиля: "
     read -r PTERO_DIR
     if [ -f "$PTERO_DIR/config/app.php" ]; then
-        print "Pterodactyl was found, continuing..."
+        print "Найден птеродактиль, продолжение.."
       else
-        print_error "Pterodactyl not found, running script again..."
+        print_error "Птеродактиль не найден, снова запускаю скрипт..."
         main
     fi
   fi
@@ -701,10 +691,10 @@ check_compatibility
 
 # Set FQDN for panel #
 while [ -z "$FQDN" ]; do
-  print_warning "Do not use a domain that is already in use by another application, such as the domain of your pterodactyl."
-  echo -ne "* Set the Hostname/FQDN for panel (${YELLOW}panel.example.com${RESET}): "
+  print_warning "Не используйте домен, который уже используется другим приложением, например домен вашего птеродактиля."
+  echo -ne "* Установите имя хоста/полное доменное имя для панели (${YELLOW}panel.example.com${RESET}): "
   read -r FQDN
-  [ -z "$FQDN" ] && print_error "FQDN cannot be empty"
+  [ -z "$FQDN" ] && print_error "Полное доменное имя не может быть пустым"
 done
 
 # Install the packages to check FQDN and ask about SSL only if FQDN is a string #
@@ -715,31 +705,31 @@ if [[ "$FQDN" == [a-zA-Z]* ]]; then
 fi
 
 # Set host of the database #
-echo -ne "* Enter the host of the database (${YELLOW}127.0.0.1${RESET}): "
+echo -ne "* Введите хост базы данных (${YELLOW}127.0.0.1${RESET}): "
 read -r DB_HOST
 [ -z "$DB_HOST" ] && DB_HOST="127.0.0.1"
 
 # Set port of the database #
-echo -ne "* Enter the port of the database (${YELLOW}3306${RESET}): "
+echo -ne "* Введите порт базы данных (${YELLOW}3306${RESET}): "
 read -r DB_PORT
 [ -z "$DB_PORT" ] && DB_PORT="3306"
 
 # Set name of the database #
-echo -ne "* Enter the name of the database (${YELLOW}controlpanel${RESET}): "
+echo -ne "* Введите имя базы данных (${YELLOW}controlpanel${RESET}): "
 read -r DB_NAME
 [ -z "$DB_NAME" ] && DB_NAME="controlpanel"
 
 # Set user of the database #
-echo -ne "* Enter the username of the database (${YELLOW}controlpaneluser${RESET}): "
+echo -ne "* Введите имя пользователя базы данных (${YELLOW}controlpaneluser${RESET}): "
 read -r DB_USER
 [ -z "$DB_USER" ] && DB_USER="controlpaneluser"
 
 # Set pass of the database #
-password_input DB_PASS "Enter the password of the database (Enter for random password): " "Password cannot by empty!" "$RANDOM_PASSWORD"
+password_input DB_PASS "Введите пароль базы данных (Введите ничего для случайного пароля): " "Пароль не может быть пустым!" "$RANDOM_PASSWORD"
 
 # Ask Time-Zone #
-echo -e "* List of valid time-zones here: ${YELLOW}$(hyperlink "http://php.net/manual/en/timezones.php")${RESET}"
-echo -ne "* Select Time-Zone (${YELLOW}America/New_York${RESET}): "
+echo -e "* Список допустимых часовых поясов здесь: ${YELLOW}$(hyperlink "http://php.net/manual/en/timezones.php")${RESET}"
+echo -ne "* Выберите часовой пояс (${YELLOW}America/New_York${RESET}): "
 read -r TIMEZONE
 [ -z "$TIMEZONE" ] && TIMEZONE="America/New_York"
 
@@ -771,11 +761,11 @@ mkdir -p $INFORMATIONS
   echo -e "* Database User: $DB_USER"
   echo -e "* Database Pass: $DB_PASS"
   echo ""
-  echo "* After using this file, delete it immediately!"
+  echo "* После использования этого файла немедленно удалите его!"
 } > $INFORMATIONS/install.info
 
 # Confirm all the choices #
-echo -n "* Initial settings complete, do you want to continue to the installation? (y/N): "
+echo -n "* Начальные настройки завершены, продолжить установку? (y/N): "
 read -r CONTINUE_INSTALL
 [[ "$CONTINUE_INSTALL" =~ [Yy] ]] && install_controlpanel
 [[ "$CONTINUE_INSTALL" == [Nn] ]] && print_error "Installation aborted!" && exit 1
@@ -785,16 +775,13 @@ bye() {
 echo
 print_brake 90
 echo
-echo -e "${GREEN}* The script has finished the installation process!${RESET}"
+echo -e "${GREEN}* Скрипт завершил процесс установки!${RESET}"
 
 [ "$CONFIGURE_SSL" == true ] && APP_URL="https://$FQDN"
 [ "$CONFIGURE_SSL" == false ] && APP_URL="http://$FQDN"
 
-echo -e "${GREEN}* To complete the configuration of your panel, go to ${YELLOW}$(hyperlink "$APP_URL/install")${RESET}"
-echo -e "${GREEN}* Thank you for using this script!"
-echo -e "* Wiki: ${YELLOW}$(hyperlink "$WIKI_LINK")${RESET}"
-echo -e "${GREEN}* Support Group: ${YELLOW}$(hyperlink "$SUPPORT_LINK")${RESET}"
-echo -e "${GREEN}*${RESET} If you have questions about the information that is requested on the installation page\nall the necessary information about it is written in: (${YELLOW}$INFORMATIONS/install.info${RESET})."
+echo -e "${GREEN}* Чтобы завершить настройку панели, перейдите на ${YELLOW}$(hyperlink "$APP_URL/install")${RESET}"
+echo -e "${GREEN}* Спасибо за использование этого скрипта (перевод от zovy#4588 за вопросами пишите в дс)!"
 echo
 print_brake 90
 echo
