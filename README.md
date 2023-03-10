@@ -52,7 +52,8 @@ bash <(curl -s closed.)
 <h1 align="center">Development</h1>
 
 Этот скрипт был создан  [Ferks - FK](https://github.com/Ferks-FK).
-Перевод на Русский язык [zovy-dev]([https://github.com/Ferks-FK](https://github.com/zovy-dev)).
+
+Перевод на Русский язык [zovy-dev](https://github.com/zovy-dev).
 
 <h1 align="center">Дополнительная информация</h1>
 
