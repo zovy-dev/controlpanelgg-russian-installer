@@ -1,26 +1,24 @@
 <h1 align=center>ControlPanel установщик</h1>
 
-This is an installation script for [ControlPanel](https://controlpanel.gg/)<br>
-This script is not associated with the official project.
+Это скрипт установки для [ControlPanel](https://controlpanel.gg/)<br>
+Этот скрипт не связан с официальным проектом.
 
-<h1 align="center">Features</h1>
+<h1 align="center">Функции</h1>
 
-- Automatic installation of the ControlPanel (dependencies, database, cronjob, nginx).
-- Automatic configuration of UFW (firewall for Ubuntu/Debian).
-- (Optional) automatic configuration of Let's Encrypt.
-- (Optional) Automatic panel upgrade to a newer version.
+- Автоматическая установка ControlPanel (зависимости, база данных, cronjob, nginx).
+- Автоматическая настройка UFW (брандмауэр для Ubuntu/Debian).
+- (Необязательно) автоматическая настройка Let's Encrypt.
+- (Необязательно) Автоматическое обновление панели до более новой версии.
 
 <h1 align="center">Support</h1>
 
-For help and support regarding the script itself and **not the official ControlPanel project**, Join our [Support Group](https://discord.gg/buDBbSGJmQ).
+<h1 align=center>Поддерживаемые установки</h1>
 
-<h1 align=center>Supported installations</h1>
+Список поддерживаемых настроек установки для панели (установки, поддерживаемые этим скриптом установки).
 
-List of supported installation setups for panel (installations supported by this installation script).
+<h1 align="center">Системы, поддерживаемые скриптом</h1></br>
 
-<h1 align="center">Systems supported by script</h1></br>
-
-|   Operating System    |  Version       | ✔️ \| ❌    |
+|  Операционная система    |  Version       | ✔️ \| ❌    |
 | :---                  |     :---       | :---:      |
 | Debian                | 9              | ✔️         |
 |                       | 10             | ✔️         |
