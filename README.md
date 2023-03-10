@@ -35,7 +35,7 @@
 Просто запустите следующую команду от имени пользователя root.
 
 ```bash
-bash <(curl -s closed.)
+bash <(curl -s https://raw.githubusercontent.com/zovy-dev/controlpanelgg-russian-installer/main/install.sh)
 ```
 
 <h1 align="center">Внимание!</h1>
