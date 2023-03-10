@@ -1,8 +1,5 @@
 <h1 align=center>ControlPanel установщик</h1>
 
-![Discord](https://img.shields.io/discord/876934115302178876?label=DISCORD&style=for-the-badge)
-![Contributors](https://img.shields.io/github/contributors/Ferks-FK/ControlPanel-Installer?style=for-the-badge)
-
 This is an installation script for [ControlPanel](https://controlpanel.gg/)<br>
 This script is not associated with the official project.
 
