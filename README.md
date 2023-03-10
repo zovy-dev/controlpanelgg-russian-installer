@@ -18,7 +18,7 @@
 
 <h1 align="center">Системы, поддерживаемые скриптом</h1></br>
 
-|  Операционная система    |  Version       | ✔️ \| ❌    |
+|  Операционная система    |  Версия       | ✔️ \| ❌    |
 | :---                  |     :---       | :---:      |
 | Debian                | 9              | ✔️         |
 |                       | 10             | ✔️         |
@@ -30,29 +30,30 @@
 |                       | 8              | ✔️         |
 
 
-<h1 align="center">How to use</h1>
+<h1 align="center">Как использовать</h1>
 
-Just run the following command as root user.
+Просто запустите следующую команду от имени пользователя root.
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/Ferks-FK/ControlPanel-Installer/development/install.sh)
+bash <(curl -s closed.)
 ```
 
-<h1 align="center">Attention!</h1>
+<h1 align="center">Внимание!</h1>
 
-*Do not run the command using sudo.*
+*Не запускайте команду с помощью sudo.*
 
-**Example:** ```$ sudo bash <(curl -s...```
+**Пример:** ```$ sudo bash <(curl -s...```
 
-*You must be logged into your system as root to use the command.*
+*Вы должны войти в свою систему как root, чтобы использовать команду.*
 
-**Example:** ```# bash <(curl -s...```
+**Пример:** ```# bash <(curl -s...```
 
 
 <h1 align="center">Development</h1>
 
-This script was created and is being maintained by [Ferks - FK](https://github.com/Ferks-FK).
+Этот скрипт был создан  [Ferks - FK](https://github.com/Ferks-FK).
+Перевод на Русский язык [zovy-dev]([https://github.com/Ferks-FK](https://github.com/zovy-dev)).
 
-<h1 align="center">Extra informations</h1>
+<h1 align="center">Дополнительная информация</h1>
 
-If you have any ideas, or suggestions, feel free to say so in the [Support Group](https://discord.gg/buDBbSGJmQ).
+Если у вас есть какие-либо идеи или предложения, не стесняйтесь сказать об этом в [Группа поддержки](https://discord.gg/buDBbSGJmQ).
